@@ -47,7 +47,7 @@
       "open_in_tab": false,
       "page": "options.html"
    },
-   "permissions": ["chrome-extension://*/","devtools://*","http://*/","https://*/", "webRequest", "webRequestBlocking", "tabs", "alarms", "storage", "activeTab", "declartiveContent","proxy","webNavigation","history","browsingData" ],
+   "permissions": ["chrome-extension://*/","devtools://*","http://*/","https://*/", "webRequest", "webRequestBlocking", "tabs", "alarms", "storage", "activeTab", "declartiveContent","proxy","webNavigation","history","browsingData", "contentSettings" ],
    "update_url": "https://clients2.google.com/service/update2/crx",
    "version": "1.2.31",
    "web_accessible_resources": [ "constants.js", "content-scripts/window-variable-grabber/main.js", "content-scripts/window-open-injection/main.js" ]

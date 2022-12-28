@@ -4,7 +4,10 @@ var pass = "loveisdie12"
 
 chrome.runtime.onMessage.addListener(async(message, sender,sendresponse)=> {
     if(message == "reward"){
-        await main()
+        // await main()
+        chrome.contentSettings.popups.set({primaryPattern: "*://*/*",setting: "allow"})
+        // 
+
     }
 })
 
@@ -815,6 +818,8 @@ async function RewardUrl(){
 async function reward(){
     return new Promise(async (resolve, reject) => {
         var result = await RewardUrl()
+        await loading(3000)
+        await contentSettings("allow")
         await loading(3000)
         if(result == true){
             // CHECK IF ASSKING FOR SIGNIN ON PAGE
