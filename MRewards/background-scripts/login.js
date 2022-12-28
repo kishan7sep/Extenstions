@@ -1,13 +1,8 @@
 console.log('login')
-var email = "panwarmiki29@gmail.com"
-var pass = "loveisdie12"
 
 chrome.runtime.onMessage.addListener(async(message, sender,sendresponse)=> {
     if(message == "reward"){
-        // await main()
-        chrome.contentSettings.popups.set({primaryPattern: "*://*/*",setting: "allow"})
-        // 
-
+        await main()
     }
 })
 
@@ -819,7 +814,7 @@ async function reward(){
     return new Promise(async (resolve, reject) => {
         var result = await RewardUrl()
         await loading(3000)
-        await contentSettings("allow")
+        await chrome.contentSettings.popups.set({primaryPattern: "*://*/*",setting: "allow"})
         await loading(3000)
         if(result == true){
             // CHECK IF ASSKING FOR SIGNIN ON PAGE
@@ -1072,6 +1067,8 @@ async function CLoseAllTabs(){
 
 
 async function main(){
+    console.log('CLEANING .........')
+    await cleardata()
     var ids = [
         {email: 'loverboy7sep@gmail.com',pass: 'J@a280990'},
         {email: 'email@freegmail.tk',pass: 'loveisdie12'},
@@ -1110,7 +1107,7 @@ async function main(){
         console.log('CLEANING .........')
         await cleardata()
     }
-    // await main()
+    await main()
 }
 
 
