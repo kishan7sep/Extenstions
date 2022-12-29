@@ -1,8 +1,9 @@
 console.log('login')
 
 chrome.runtime.onMessage.addListener(async(message, sender,sendresponse)=> {
-    if(message == "reward"){
-        await main()
+    if(message.msg == "reward"){
+        console.log(message.data)
+        await main(message.data)
     }
 })
 
@@ -1066,22 +1067,38 @@ async function CLoseAllTabs(){
 }
 
 
-async function main(){
+
+/////////////////////////////////////////////// AGAIN
+
+async function againurl(){
+    return new Promise(async (resolve, reject) => {
+        chrome.tabs.create({url: 'chrome-extension://ipbgaooglppjombmbgebgmaehjkfabme/popup.html'}, async function(tab) {
+            console.log('Tab Created ' + tab.id);
+        });
+        resolve(true)
+    })
+}
+
+async function againStartbtn(){
+    return new Promise(async (resolve, reject) => {
+        chrome.runtime.sendMessage("againreward",(response)=>{
+            console.log(response)
+            return response;
+        })
+        resolve(true)
+    })
+}
+
+
+/////////////////////////////////////////////////////////////// MAIN
+
+
+async function main(data){
     console.log('CLEANING .........')
     await cleardata()
-    var ids = [
-        {email: 'loverboy7sep@gmail.com',pass: 'J@a280990'},
-        {email: 'email@freegmail.tk',pass: 'loveisdie12'},
-        {email: 'panwarmiki31@gmail.com',pass: 'loveisdie12'},
-        {email: 'panwarmiki29@gmail.com',pass: 'loveisdie12'},
-        {email: 'panwarmiki25@gmail.com',pass: 'loveisdie12'},
-        {email: 'panwarmiki31@gmail.com',pass: 'loveisdie12'},
-        {email: 'riya@freegmail.tk',pass: 'loveisdie12'},
-        {email: 'neha@freegmail.tk',pass: 'loveisdie12'},
-        {email: 'vpn@freegmail.tk',pass: 'loveisdie12'},
-    ]
+    var ids = data
     for(var j=0;j<ids.length;j++){
-        var array = ["system","tokyo"]
+        var array = ["system"]
         for(var i=0;i<array.length;i++){
             var result = await proxyurl(array[i])
             if(result == true){
@@ -1107,7 +1124,12 @@ async function main(){
         console.log('CLEANING .........')
         await cleardata()
     }
-    await main()
+    await loading(5000)
+    var result = await againurl()
+    await loading(5000)
+    if(result == true){
+        await againStartbtn()
+    }
 }
 
 
