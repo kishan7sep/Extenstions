@@ -971,6 +971,17 @@ async function SearchUrlMove(){
     })
 }
 
+
+async function aftelogin(){
+    return new Promise(async (resolve, reject) => {
+        chrome.tabs.create({url: 'https://www.bing.com/'}, async function(tab) {
+            console.log('Tab Created ' + tab.id);
+        });
+        resolve(true)
+    })
+}
+
+
 async function StartSeraches(){
     return new Promise(async (resolve, reject) => {
         chrome.runtime.sendMessage("searches",(response)=>{
@@ -1106,15 +1117,19 @@ async function main(data){
                     var result = await login(ids[j].email,ids[j].pass)
                 }
                 if(result == true){
-                    console.log('reward')
-                    var result = await reward()
-                    if(result == true){
-                        console.log('search')
-                        var result = await searchurl()
-                        await loading(5000)
+                    var result = await aftelogin()
+                    await loading(5000)
+                    if(result== true){
+                        console.log('reward')
+                        var result = await reward()
                         if(result == true){
-                            console.log('Closing ALl Tabs')
-                            var result = await CLoseAllTabs()
+                            console.log('search')
+                            var result = await searchurl()
+                            await loading(5000)
+                            if(result == true){
+                                console.log('Closing ALl Tabs')
+                                var result = await CLoseAllTabs()
+                            }
                         }
                     }
                 }
