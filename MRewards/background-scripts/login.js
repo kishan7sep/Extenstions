@@ -1109,7 +1109,7 @@ async function main(data){
     await cleardata()
     var ids = data
     for(var j=0;j<ids.length;j++){
-        var array = ["system"]
+        var array = ["system","tokyo"]
         for(var i=0;i<array.length;i++){
             var result = await proxyurl(array[i])
             if(result == true){
