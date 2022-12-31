@@ -196,7 +196,7 @@ document.getElementById('tokyo-proxy').addEventListener('click', async () => {
 })
 
 document.getElementById('open-reward-tasks').addEventListener('click', async () => {
-  var data = await funcName()
+  var data = await funcName("get",null)
   console.log(data)
   await chrome.runtime.sendMessage({data: data,msg : "reward"},(response)=>{
     console.log(response)
@@ -205,9 +205,10 @@ document.getElementById('open-reward-tasks').addEventListener('click', async () 
 });
 
 
-async function funcName(){
-  return new Promise(async (resolve, reject) => {
-      await fetch("https://script.google.com/macros/s/AKfycbx6BzAVTElXn5AkIGeqgBFGj5OZzskgkzCfFPwCOlTrLCbT2c1sNWOr5iSoMMMhr2Mw/exec?action=maccounts", {
+async function funcName(msg,message){
+  if(msg == "get"){
+    return new Promise(async (resolve, reject) => {
+      await fetch(`${constants.GSHEETURL}?action=maccounts`, {
           "headers": {
             "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
             "accept-language": "en-US,en;q=0.9",
@@ -237,8 +238,54 @@ async function funcName(){
         resolve(data.json())
       })
         .catch(err => console.log(err) )
-  })
+    })
+  }
+  if(msg == "put"){
+    return new Promise(async (resolve, reject) => {
+      console.log("DOING PUT OPERATION")
+      console.log(message.email)
+      console.log(message.status)
+      console.log(`${constants.GSHEETURL}?action=maccounts&status=${message.status}&email=${message.email}`)
+      await fetch(`${constants.GSHEETURL}?action=maccounts&status=${message.status}&email=${message.email}`, {
+        "headers": {
+          "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9",
+          "accept-language": "en-US,en;q=0.9",
+          "cache-control": "max-age=0",
+          "sec-ch-ua": "\"Not?A_Brand\";v=\"8\", \"Chromium\";v=\"108\", \"Microsoft Edge\";v=\"108\"",
+          "sec-ch-ua-arch": "\"\"",
+          "sec-ch-ua-bitness": "\"64\"",
+          "sec-ch-ua-full-version": "\"108.0.1462.54\"",
+          "sec-ch-ua-full-version-list": "\"Not?A_Brand\";v=\"8.0.0.0\", \"Chromium\";v=\"108.0.5359.125\", \"Microsoft Edge\";v=\"108.0.1462.54\"",
+          "sec-ch-ua-mobile": "?1",
+          "sec-ch-ua-model": "\"Nexus 5\"",
+          "sec-ch-ua-platform": "\"Android\"",
+          "sec-ch-ua-platform-version": "\"6.0\"",
+          "sec-ch-ua-wow64": "?0",
+          "sec-fetch-dest": "document",
+          "sec-fetch-mode": "navigate",
+          "sec-fetch-site": "none",
+          "sec-fetch-user": "?1",
+          "upgrade-insecure-requests": "1"
+        },
+          "referrerPolicy": "strict-origin-when-cross-origin",
+          "body": null,
+          "method": "GET",
+          "mode": "cors",
+          "credentials": "include"
+      }).then(data => {
+        resolve(data.json())
+      })
+        .catch(err => console.log(err) )
+    })
+  }
 }
+
+chrome.runtime.onMessage.addListener(async(message, sender,sendresponse)=> {
+  if(message.msg == "gsheet"){
+    console.log('GOT MESSAGE ........')
+    var data = await funcName("put",message)
+  }
+})
 
 
 
@@ -292,7 +339,7 @@ async function cleardata(){
 
 chrome.runtime.onMessage.addListener(async(message, sender,sendresponse)=> {
   if(message == "againreward"){
-    var data = await funcName()
+    var data = await funcName("get",null)
     console.log(data)
     await chrome.runtime.sendMessage({data: data,msg : "reward"},(response)=>{
       console.log(response)
@@ -300,8 +347,6 @@ chrome.runtime.onMessage.addListener(async(message, sender,sendresponse)=> {
     })
   }
 })
-
-
 
 
 

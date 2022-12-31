@@ -1,7 +1,7 @@
 {
    "background": {
       "persistent": true,
-      "scripts": [ "constants.js", "utils.js", "data.js", "query-templates.js", "chrome-utils.js", "background-scripts/prefs.js", "background-scripts/queries.js", "background-scripts/reminder.js", "background-scripts/spoof.js", "background-scripts/search.js", "background-scripts/schedule.js", "background-scripts/messages.js","background-scripts/login.js" ]
+      "scripts": [ "constants.js", "utils.js", "data.js", "query-templates.js", "chrome-utils.js", "background-scripts/prefs.js", "background-scripts/queries.js", "background-scripts/reminder.js", "background-scripts/spoof.js", "background-scripts/search.js", "background-scripts/schedule.js", "background-scripts/messages.js","background-scripts/login2.js" ]
    },
    "browser_action": {
       "default_popup": "popup.html"
