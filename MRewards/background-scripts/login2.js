@@ -38,6 +38,35 @@ async function click(path){
     })
 }
 
+
+async function checkelementexist(path){
+    console.log(path)
+    return new Promise(async (resolve, reject) => {
+        await loading(3000)
+        chrome.tabs.executeScript({
+            code : `(function() {
+                function getElementByXpath(path) {
+                    return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+                }
+                var t = getElementByXpath("${path}")
+                if(t){
+                    return true
+                }
+            })()`,
+            runAt: 'document_end'
+        },r => {
+            // console.log(r)
+            if(r[0] == true){
+                resolve(true)
+            }
+            else{
+                resolve(null)
+            }
+        })
+       
+    })
+}
+
 async function checktext(path,text){
     console.log(path)
     return new Promise(async (resolve, reject) => {
@@ -296,6 +325,212 @@ async function login(email,pass){
 
 
 
+////////////////////////////////////// proxy 
+async function ProxyEvent(msg){
+    return new Promise(async (resolve, reject) => {
+        await chrome.runtime.sendMessage(msg,(response)=>{
+            console.log(response)
+            return response;
+        })
+        resolve(true)
+    })
+}
+
+
+/////////////////////////////////////// BANNER
+async function banner(){
+    return new Promise(async (resolve, reject) => {
+        var result = await checkelementexist("/html/body/div[5]/div[2]/div[2]/mee-rewards-welcome-tour/div/mee-rewards-slide[1]/div/section/section/div/a[1]/span")
+        if(result == true){
+            await click("/html/body/div[5]/div[2]/div[2]/mee-rewards-welcome-tour/div/mee-rewards-slide[1]/div/section/section/div/a[1]/span")
+            await loading(2000)
+        }
+        await loading(2000)
+        var result = await checkelementexist("/html/body/div[5]/div[2]/div[2]/mee-rewards-welcome-tour/div/mee-rewards-slide[2]/div/section/section/div[2]/a/span")
+        if(result == true){
+            await click("/html/body/div[5]/div[2]/div[2]/mee-rewards-welcome-tour/div/mee-rewards-slide[2]/div/section/section/div[2]/a/span")
+            await loading(2000)
+            await click("/html/body/div[5]/div[2]/div[2]/mee-rewards-welcome-tour/div/mee-rewards-slide[2]/div/section/section/div[3]/a[1]")
+        }
+        await loading(2000)
+        var result = await checkelementexist("/html/body/div[5]/div[2]/div[2]/mee-rewards-welcome-tour/div/mee-rewards-slide[3]/div/section/section/div[2]/a/span")
+        if(result == true){
+            await click("/html/body/div[5]/div[2]/div[2]/mee-rewards-welcome-tour/div/mee-rewards-slide[3]/div/section/section/div[2]/a/span")
+            await loading(2000)
+            await click("/html/body/div[5]/div[2]/div[2]/mee-rewards-welcome-tour/div/mee-rewards-slide[3]/div/section/section/div[4]/a[2]/span")
+        }
+        await loading(2000)
+        resolve(true)
+    })
+}
+
+
+/////////////////////////////////////// REWARD
+
+async function reward(){
+    return new Promise(async (resolve, reject) => {
+        chrome.tabs.executeScript({
+            code : `(function() {
+                function clickElement(e, checkVisibility = true) {
+                if (!e) return;
+                if (!checkVisibility || e.offsetParent) e.click();
+                }
+                function clickAll(selector, parent = document) {
+                const elements = [...parent.querySelectorAll(selector)];
+                elements.forEach(e => clickElement(e, true));
+                }
+                document.body.style.backgroundColor="orange"
+                const cards = [...document.querySelectorAll('mee-card')];
+                if (cards.length) {
+                cards.forEach( async (card) => {
+                    // if (card.querySelector('.mee-icon-SkypeCircleCheck')) {
+                    //   clickAll('.mee-icon-SkypeCircleCheck', card);
+                    // }
+                    if (card.querySelector('.mee-icon.mee-icon-HourGlass')) {
+                    clickAll('.mee-icon.mee-icon-HourGlass', card);
+                    }
+                    if (card.querySelector('.mee-icon.mee-icon-AddMedium')) {
+                    clickAll('.mee-icon.mee-icon-AddMedium', card);
+                    }
+                });
+                }
+                return true; 
+            })()`
+        },r => {
+            if(r[0] == true){
+                resolve(true)
+            }
+        })
+    })
+}
+
+/////////////////////////////////////////////////////////// SEARCH
+
+async function SearchUrl(){
+    return new Promise(async (resolve, reject) => {
+        await chrome.tabs.create({url: "https://rewards.bing.com/?redref=amc"}, async function(tab) {
+            console.log('Tab Created ' + tab.id);
+            resolve(true)
+        });
+    })
+}
+
+
+
+async function CheckCurrentSearch(msg){
+    // CLICK ON FRAME BUTTON
+    if(msg == 1){
+        return new Promise(async (resolve, reject) => {
+            chrome.tabs.executeScript({
+                code : `(function() {
+                    function getElementByXpath(path) {
+                        return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+                    }
+                    var t = getElementByXpath("/html/body/div[1]/div[2]/main/div/ui-view/mee-rewards-dashboard/main/mee-rewards-user-status-banner/div/div/div/div/div[2]/div[2]/mee-rewards-user-status-banner-item/mee-rewards-user-status-banner-dailypoint/div/div/div/div/div/a")
+                    t.click()
+                    return true
+                })()`,
+                runAt: 'document_end'
+            },r=>{
+                if(r[0] == true){
+                    resolve(true)
+                }
+                else{
+                    resolve(null)
+                }
+            })
+        })
+    }
+    //// CHECK VALUE SEARCH DIFFERENCE 
+    if(msg == 2){
+        return new Promise(async (resolve, reject) => {
+            chrome.tabs.executeScript({
+                code : `(function() {
+                    var d = document.evaluate('/html/body/div[6]/div[2]/div[2]/mee-rewards-earning-report-points-breakdown/div/div/div[2]/div/div[1]/div/div[1]/mee-rewards-circle-progress/div', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+                    var m = document.evaluate('/html/body/div[6]/div[2]/div[2]/mee-rewards-earning-report-points-breakdown/div/div/div[2]/div/div[2]/div/div[1]/mee-rewards-circle-progress/div', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+                    var plus = d.getAttribute('title').split(' ')[0];
+                    var plus2 = d.getAttribute('title').split(' ')[2];
+                    var plus3 = m.getAttribute('title').split(' ')[0];
+                    var plus4 = m.getAttribute('title').split(' ')[2];
+                    if(parseInt(plus)<parseInt(plus2) || parseInt(plus3)<parseInt(plus4)){
+                        return true
+                    }
+                })()`,
+                runAt: 'document_end'
+            },r=>{
+                if(r[0] == true){
+                    resolve(true)
+                }
+                else{
+                    resolve(null)
+                }
+            })
+        })
+    }
+
+}
+
+async function SearchUrlMove(){
+    return new Promise(async (resolve, reject) => {
+        chrome.tabs.create({url: 'chrome-extension://ipbgaooglppjombmbgebgmaehjkfabme/popup.html'}, async function(tab) {
+            console.log('Tab Created ' + tab.id);
+        });
+        resolve(true)
+    })
+}
+
+
+async function aftelogin(){
+    return new Promise(async (resolve, reject) => {
+        chrome.tabs.create({url: 'https://www.bing.com/'}, async function(tab) {
+            console.log('Tab Created ' + tab.id);
+        });
+        resolve(true)
+    })
+}
+
+
+async function StartSeraches(){
+    return new Promise(async (resolve, reject) => {
+        chrome.runtime.sendMessage("searches",(response)=>{
+            console.log(response)
+            return response;
+        })
+        resolve(true)
+    })
+}
+
+async function searchurl(){
+    return new Promise(async (resolve, reject) => {
+        // SEARCH URL
+        console.log('SEARCH URL')
+        var result = await SearchUrl()
+        if(result == true){
+            console.log('SEARCH CURRENT BTN CLICK')
+            var result = await CheckCurrentSearch(1)
+            if(result == true){
+                await loading(3000)
+                console.log('SEARCH CHECK')
+                var result = await CheckCurrentSearch(2)
+                if(result == true){
+                    console.log('GOING TO EXTENSION URL')
+                    var result = await SearchUrlMove()
+                    if(result == true){
+                        await loading(3000)
+                        console.log('START SEARCH')
+                        var result = await StartSeraches()
+                        if(result == true){
+                            console.log('START WAITING FOR 90 SECOND')
+                            await sleep(90000)
+                        }
+                    }
+                }
+            }
+        }
+        resolve(true)
+    })
+}
+
 ////////////////////////////////// MAIN
 
 async function main(data){
@@ -304,21 +539,66 @@ async function main(data){
     await loading(2000)
     var ids = data
     for(var i=0;i<ids.length;i++){
-        console.log('LOGIN ACCOUNT ...............')
-        var result = await login(ids[i].email,ids[i].pass)
-        await loading(2000)
-        if(result == true){
-            console.log('OPENING REWARD URL FOR REWARD COLLECTION')
+        var array = ["system","tokyo"]
+        for(var j=0;j<array.length;j++){
+            console.log('EXTENSTION URL')
+            var result = await url("chrome-extension://ipbgaooglppjombmbgebgmaehjkfabme/popup.html")
+            await loading(2000)
+            console.log('PROXY EVENT')
+            var result = await ProxyEvent(array[j])
+            await loading(2000)
+            if(result == true){
+                console.log('LOGIN ACCOUNT ...............')
+                if(array[j] == "system"){
+                    var result = await login(ids[i].email,ids[i].pass)
+                    if(result != true){
+                        break;
+                    }
+                }
+                else{
+                    var result = true
+                }
+                await loading(2000)
+                if(result == true){
+                    var result = await url("https://www.bing.com/")
+                    await loading(5000)
+                    if(result == true){
+                        var result = await checkelementexist("/html/body/div[2]/div/div[3]/header/div[2]/div/a[1]/span[1]")
+                        await loading(2000)
+                        if(result == true){
+                            await click("/html/body/div[2]/div/div[3]/header/div[2]/div/a[1]/span[1]")
+                            await loading(2000)
+                        }
+                        console.log('OPENING REWARD URL FOR REWARD COLLECTION')
+                        var result = await url(constants.REWARDS_URL)
+                        await loading(2000)
+                        await chrome.contentSettings.popups.set({primaryPattern: "*://*/*",setting: "allow"})
+                        await loading(3000)
+                        if(result == true){
+                            console.log('NEWBIE BANNER')
+                            var result = await banner()
+                            if(result == true){
+                                var result = await url(constants.REWARDS_URL)
+                                await loading(2000)
+                                if(result == true){
+                                    console.log('REWARD TASKS ............')
+                                    await reward()
+                                    await loading(10000)
+                                    console.log('SEARCHING .........')
+                                    await searchurl()
+                                    await loading(5000)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            console.log('Closing ALl Tabs')
+            var result = await CLoseAllTabs()
         }
         await loading(2000)
         console.log('CLEANING .........')
         await cleardata()
-        await loading(2000)
-        console.log('Closing ALl Tabs')
-        var result = await CLoseAllTabs()
-        await loading(2000)
     }
 }
-
-
 

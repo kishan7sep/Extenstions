@@ -186,7 +186,7 @@ document.getElementById('tokyo-proxy').addEventListener('click', async () => {
       fallbackProxy: {
         scheme: "socks5",
         host: "127.0.0.1",
-        port: 8888
+        port: 9999
       },
       bypassList: ["127.0.0.1","[::1]","localhost"]
     }
