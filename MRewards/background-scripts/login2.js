@@ -600,5 +600,6 @@ async function main(data){
         console.log('CLEANING .........')
         await cleardata()
     }
+    await main()
 }
 
