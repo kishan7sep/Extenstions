@@ -541,60 +541,65 @@ async function main(data){
     for(var i=0;i<ids.length;i++){
         var array = ["system","tokyo"]
         for(var j=0;j<array.length;j++){
-            console.log('EXTENSTION URL')
-            var result = await url("chrome-extension://ipbgaooglppjombmbgebgmaehjkfabme/popup.html")
-            await loading(2000)
-            console.log('PROXY EVENT')
-            var result = await ProxyEvent(array[j])
-            await loading(2000)
-            if(result == true){
-                console.log('LOGIN ACCOUNT ...............')
-                if(array[j] == "system"){
-                    var result = await login(ids[i].email,ids[i].pass)
-                    if(result != true){
-                        break;
-                    }
-                }
-                else{
-                    var result = true
-                }
+            try{
+                console.log('EXTENSTION URL')
+                var result = await url("chrome-extension://ipbgaooglppjombmbgebgmaehjkfabme/popup.html")
+                await loading(2000)
+                console.log('PROXY EVENT')
+                var result = await ProxyEvent(array[j])
                 await loading(2000)
                 if(result == true){
-                    var result = await url("https://www.bing.com/")
-                    await loading(5000)
-                    if(result == true){
-                        var result = await checkelementexist("/html/body/div[2]/div/div[3]/header/div[2]/div/a[1]/span[1]")
-                        await loading(2000)
-                        if(result == true){
-                            await click("/html/body/div[2]/div/div[3]/header/div[2]/div/a[1]/span[1]")
-                            await loading(2000)
+                    console.log('LOGIN ACCOUNT ...............')
+                    if(array[j] == "system"){
+                        var result = await login(ids[i].email,ids[i].pass)
+                        if(result != true){
+                            break;
                         }
-                        console.log('OPENING REWARD URL FOR REWARD COLLECTION')
-                        var result = await url(constants.REWARDS_URL)
-                        await loading(2000)
-                        await chrome.contentSettings.popups.set({primaryPattern: "*://*/*",setting: "allow"})
-                        await loading(3000)
+                    }
+                    else{
+                        var result = true
+                    }
+                    await loading(2000)
+                    if(result == true){
+                        var result = await url("https://www.bing.com/")
+                        await loading(5000)
                         if(result == true){
-                            console.log('NEWBIE BANNER')
-                            var result = await banner()
+                            var result = await checkelementexist("/html/body/div[2]/div/div[3]/header/div[2]/div/a[1]/span[1]")
+                            await loading(2000)
                             if(result == true){
-                                var result = await url(constants.REWARDS_URL)
+                                await click("/html/body/div[2]/div/div[3]/header/div[2]/div/a[1]/span[1]")
                                 await loading(2000)
+                            }
+                            console.log('OPENING REWARD URL FOR REWARD COLLECTION')
+                            var result = await url(constants.REWARDS_URL)
+                            await loading(2000)
+                            await chrome.contentSettings.popups.set({primaryPattern: "*://*/*",setting: "allow"})
+                            await loading(3000)
+                            if(result == true){
+                                console.log('NEWBIE BANNER')
+                                var result = await banner()
                                 if(result == true){
-                                    console.log('REWARD TASKS ............')
-                                    await reward()
-                                    await loading(10000)
-                                    console.log('SEARCHING .........')
-                                    await searchurl()
-                                    await loading(5000)
+                                    var result = await url(constants.REWARDS_URL)
+                                    await loading(2000)
+                                    if(result == true){
+                                        console.log('REWARD TASKS ............')
+                                        await reward()
+                                        await loading(10000)
+                                        console.log('SEARCHING .........')
+                                        await searchurl()
+                                        await loading(5000)
+                                    }
                                 }
                             }
                         }
                     }
                 }
+                console.log('Closing ALl Tabs')
+                var result = await CLoseAllTabs()
             }
-            console.log('Closing ALl Tabs')
-            var result = await CLoseAllTabs()
+            catch(e){
+                console.log(e)
+            }
         }
         await loading(2000)
         console.log('CLEANING .........')
