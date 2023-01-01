@@ -599,6 +599,8 @@ async function main(data){
             }
             catch(e){
                 console.log(e)
+                console.log('Closing ALl Tabs')
+                var result = await CLoseAllTabs()
             }
         }
         await loading(2000)
