@@ -289,7 +289,7 @@ async function login(email,pass){
                         else{
                             console.log('SignIn SuccessFull')
                             await loading(2000)
-                            await CloseCurrentTab()
+                            // await CloseCurrentTab()
                             await loading(2000)
                             console.log('OPENING REWARD PAGE')
                             var result = await url(constants.REWARDS_URL)
@@ -299,7 +299,7 @@ async function login(email,pass){
                             await loading(2000)
                             console.log(result)
                             if(result == true){
-                                await CloseCurrentTab()
+                                // await CloseCurrentTab()
                                 await loading(2000)
                                 console.log('SENDING STATUS.........')
                                 console.log('OPENING EXTENSTION PAGE')
@@ -308,7 +308,7 @@ async function login(email,pass){
                                 var data = {msg:"gsheet",status:'SUSPENDED',email:email}
                                 await sendingStatus(data)
                                 await loading(2000)
-                                await CloseCurrentTab()
+                                // await CloseCurrentTab()
                                 await loading(2000)
                             }
                             else{
@@ -316,7 +316,7 @@ async function login(email,pass){
                                 await loading(2000)
                                 console.log(result)
                                 if(result.status == true){
-                                    await CloseCurrentTab()
+                                    // await CloseCurrentTab()
                                     await loading(2000)
                                     console.log('SENDING STATUS.........')
                                     console.log('OPENING EXTENSTION PAGE')
@@ -326,7 +326,7 @@ async function login(email,pass){
                                     console.log(data)
                                     await sendingStatus(data)
                                     console.log('DONE')
-                                    await CloseCurrentTab()
+                                    // await CloseCurrentTab()
                                     await loading(2000)
                                     resolve(true)
                                 }
@@ -531,7 +531,7 @@ async function searchurl(){
                 var result = await CheckCurrentSearch(2)
                 if(result == true){
                     await loading(2000)
-                    await CloseCurrentTab()
+                    // await CloseCurrentTab()
                     await loading(2000)
                     console.log('GOING TO EXTENSION URL')
                     var result = await SearchUrlMove()
@@ -568,7 +568,7 @@ async function main(data){
                 console.log('PROXY EVENT')
                 var result = await ProxyEvent(array[j])
                 await loading(2000)
-                await CloseCurrentTab()
+                // await CloseCurrentTab()
                 await loading(2000)
                 if(result == true){
                     console.log('LOGIN ACCOUNT ...............')
@@ -593,7 +593,7 @@ async function main(data){
                                 await loading(2000)
                             }
                             await loading(2000)
-                            await CloseCurrentTab()
+                            // await CloseCurrentTab()
                             await loading(2000)
                             console.log('OPENING REWARD URL FOR REWARD COLLECTION')
                             var result = await url(constants.REWARDS_URL)
@@ -605,7 +605,7 @@ async function main(data){
                                 var result = await banner()
                                 await loading(2000)
                                 if(result == true){
-                                    await CloseCurrentTab()
+                                    // await CloseCurrentTab()
                                     await loading(2000)
                                     var result = await url(constants.REWARDS_URL)
                                     await loading(2000)
