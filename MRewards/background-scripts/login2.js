@@ -230,7 +230,17 @@ async function CLoseAllTabs(){
 
 
 
-
+async function CloseCurrentTab(){
+    return new Promise(async (resolve, reject) => {
+        chrome.tabs.create({url: 'edge://extensions/'}, async function(tab) {
+            console.log('Tab Created ' + tab.id);
+            chrome.tabs.query({}, function (tabs) {
+                chrome.tabs.remove(tab.id);
+                resolve(true)
+            });
+        })
+    }) 
+}
 
 
 
@@ -282,6 +292,7 @@ async function login(email,pass){
                         else{
                             console.log('SignIn SuccessFull')
                             await loading(2000)
+                            await CloseCurrentTab()
                             console.log('OPENING REWARD PAGE')
                             var result = await url(constants.REWARDS_URL)
                             await loading(2000)
@@ -290,6 +301,7 @@ async function login(email,pass){
                             await loading(2000)
                             console.log(result)
                             if(result == true){
+                                await CloseCurrentTab()
                                 console.log('SENDING STATUS.........')
                                 console.log('OPENING EXTENSTION PAGE')
                                 await url("chrome-extension://ipbgaooglppjombmbgebgmaehjkfabme/popup.html")
@@ -303,6 +315,7 @@ async function login(email,pass){
                                 await loading(2000)
                                 console.log(result)
                                 if(result.status == true){
+                                    await CloseCurrentTab()
                                     console.log('SENDING STATUS.........')
                                     console.log('OPENING EXTENSTION PAGE')
                                     await url("chrome-extension://ipbgaooglppjombmbgebgmaehjkfabme/popup.html")
