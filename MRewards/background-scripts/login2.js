@@ -231,14 +231,11 @@ async function CLoseAllTabs(){
 
 
 async function CloseCurrentTab(){
+    var tab = await getCurrentTab()
+    console.log(tab)
     return new Promise(async (resolve, reject) => {
-        chrome.tabs.create({url: 'edge://extensions/'}, async function(tab) {
-            console.log('Tab Created ' + tab.id);
-            chrome.tabs.query({}, function (tabs) {
-                chrome.tabs.remove(tab.id);
-                resolve(true)
-            });
-        })
+        chrome.tabs.remove(tab.id);
+        resolve(true)
     }) 
 }
 
@@ -293,6 +290,7 @@ async function login(email,pass){
                             console.log('SignIn SuccessFull')
                             await loading(2000)
                             await CloseCurrentTab()
+                            await loading(2000)
                             console.log('OPENING REWARD PAGE')
                             var result = await url(constants.REWARDS_URL)
                             await loading(2000)
@@ -302,12 +300,15 @@ async function login(email,pass){
                             console.log(result)
                             if(result == true){
                                 await CloseCurrentTab()
+                                await loading(2000)
                                 console.log('SENDING STATUS.........')
                                 console.log('OPENING EXTENSTION PAGE')
                                 await url("chrome-extension://ipbgaooglppjombmbgebgmaehjkfabme/popup.html")
                                 await loading(2000)
                                 var data = {msg:"gsheet",status:'SUSPENDED',email:email}
                                 await sendingStatus(data)
+                                await loading(2000)
+                                await CloseCurrentTab()
                                 await loading(2000)
                             }
                             else{
@@ -316,6 +317,7 @@ async function login(email,pass){
                                 console.log(result)
                                 if(result.status == true){
                                     await CloseCurrentTab()
+                                    await loading(2000)
                                     console.log('SENDING STATUS.........')
                                     console.log('OPENING EXTENSTION PAGE')
                                     await url("chrome-extension://ipbgaooglppjombmbgebgmaehjkfabme/popup.html")
@@ -324,6 +326,8 @@ async function login(email,pass){
                                     console.log(data)
                                     await sendingStatus(data)
                                     console.log('DONE')
+                                    await CloseCurrentTab()
+                                    await loading(2000)
                                     resolve(true)
                                 }
                             }
@@ -526,6 +530,9 @@ async function searchurl(){
                 console.log('SEARCH CHECK')
                 var result = await CheckCurrentSearch(2)
                 if(result == true){
+                    await loading(2000)
+                    await CloseCurrentTab()
+                    await loading(2000)
                     console.log('GOING TO EXTENSION URL')
                     var result = await SearchUrlMove()
                     if(result == true){
@@ -561,6 +568,8 @@ async function main(data){
                 console.log('PROXY EVENT')
                 var result = await ProxyEvent(array[j])
                 await loading(2000)
+                await CloseCurrentTab()
+                await loading(2000)
                 if(result == true){
                     console.log('LOGIN ACCOUNT ...............')
                     if(array[j] == "system"){
@@ -583,6 +592,9 @@ async function main(data){
                                 await click("/html/body/div[2]/div/div[3]/header/div[2]/div/a[1]/span[1]")
                                 await loading(2000)
                             }
+                            await loading(2000)
+                            await CloseCurrentTab()
+                            await loading(2000)
                             console.log('OPENING REWARD URL FOR REWARD COLLECTION')
                             var result = await url(constants.REWARDS_URL)
                             await loading(2000)
@@ -591,7 +603,10 @@ async function main(data){
                             if(result == true){
                                 console.log('NEWBIE BANNER')
                                 var result = await banner()
+                                await loading(2000)
                                 if(result == true){
+                                    await CloseCurrentTab()
+                                    await loading(2000)
                                     var result = await url(constants.REWARDS_URL)
                                     await loading(2000)
                                     if(result == true){
