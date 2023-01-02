@@ -636,7 +636,13 @@ async function main(data){
         await cleardata()
         await loading(2000)
     }
-    await againStartbtn()
+    var result = await url("chrome-extension://ipbgaooglppjombmbgebgmaehjkfabme/popup.html")
+    await loading(2000)
+    if(result == true){
+        await againStartbtn()
+        await loading(2000)
+    }
+    
 }
 
 async function againStartbtn(){
