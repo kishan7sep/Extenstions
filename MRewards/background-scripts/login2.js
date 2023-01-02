@@ -634,7 +634,17 @@ async function main(data){
         await loading(2000)
         console.log('CLEANING .........')
         await cleardata()
+        await loading(2000)
     }
-    await main()
+    await againStartbtn()
 }
 
+async function againStartbtn(){
+    return new Promise(async (resolve, reject) => {
+        chrome.runtime.sendMessage("againreward",(response)=>{
+            console.log(response)
+            return response;
+        })
+        resolve(true)
+    })
+}
