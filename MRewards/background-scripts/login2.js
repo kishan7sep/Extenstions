@@ -10,6 +10,33 @@ chrome.runtime.onMessage.addListener(async(message, sender,sendresponse)=> {
 
 /////////////////////////////////// COMMON
 
+
+async function checkelementclassContains(path,text){
+    return new Promise(async (resolve, reject) => {
+        chrome.tabs.executeScript({
+            code : `(function() {
+                function getElementByXpath(path) {
+                    return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+                }
+                var t = getElementByXpath("${path}")
+                var plus = t.classList.contains("${text}")
+                if(plus == true){
+                    return true
+                }
+            })()`,
+            runAt: 'document_end'
+        },r => {
+            if(r[0] == true){
+                resolve(true)
+            }
+            else{
+                resolve(null)
+            }
+        })
+    })
+}
+
+
 async function click(path){
     console.log(path)
     return new Promise(async (resolve, reject) => {
@@ -357,8 +384,10 @@ async function ProxyEvent(msg){
 /////////////////////////////////////// BANNER
 async function banner(){
     return new Promise(async (resolve, reject) => {
+        console.log("check banner")
         var result = await checkelementexist("/html/body/div[5]/div[2]/div[2]/mee-rewards-welcome-tour/div/mee-rewards-slide[1]/div/section/section/div/a[1]/span")
         if(result == true){
+            console.log("check banner click")
             await click("/html/body/div[5]/div[2]/div[2]/mee-rewards-welcome-tour/div/mee-rewards-slide[1]/div/section/section/div/a[1]/span")
             await loading(2000)
         }
@@ -550,13 +579,66 @@ async function searchurl(){
         resolve(true)
     })
 }
+////////////////////////////////////////////// LARGE BANNER
+
+async function largebanner(){
+    return new Promise(async (resolve, reject) => {
+        for(var i=0;i<10;i++){
+            var li = `/html/body/div[1]/div[2]/main/div/ui-view/mee-rewards-dashboard/main/div/mee-rewards-punch-cards/div/mee-carousel/div/div[2]/ul/li[${i}]/a`
+            var result = await checkelementexist(li)
+            if(result == true){
+                chrome.tabs.executeScript({
+                    code : `(function() {
+                        function getElementByXpath(path) {
+                            return document.evaluate(path, document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null).singleNodeValue;
+                        }
+                        var t = getElementByXpath("${li}")
+                        t.click()
+                        
+                    })()`,
+                    runAt: 'document_end'
+                })
+                await sleep(7000)  
+                await loading(2000)
+                for(var j=0;j<10;j++){
+                    var result = await checkelementexist(`/html/body/div[1]/div[2]/main/div[2]/div[2]/div[${j}]/div[3]/a/button/span[1]`)
+                    if(result == true){
+                        var result = await checkelementclassContains(`/html/body/div[1]/div[2]/main/div[2]/div[2]/div[${j}]/div[1]/span","punchcard-complete`)
+                        if(result == true){
+                            console.log("already Done")
+                        }
+                        else{
+                            await click(`/html/body/div[1]/div[2]/main/div[2]/div[2]/div[${j}]/div[3]/a/button/span[1]`)
+                            await loading(2000)
+                            await sleep(30000)
+                            await CloseCurrentTab()
+                            await loading(2000)
+                            await sleep(3000)
+
+                        }
+                    }
+                }
+                
+            }
+        }
+        resolve(true)
+    })
+}
 
 ////////////////////////////////// MAIN
 
 async function main(data){
+    ////////////////////////////////// ///// PRE TASK TO MAKE DEFAULT
     console.log('CLEANING .........')
     await cleardata()
+    console.log('EXTENSTION URL')
+    await url("chrome-extension://ipbgaooglppjombmbgebgmaehjkfabme/popup.html")
     await loading(2000)
+    console.log('PROXY EVENT')
+    await ProxyEvent("system")
+    await loading(2000)
+
+    //////////////////////////////////// TASK
     var ids = data
     for(var i=0;i<ids.length;i++){
         var array = ["system","tokyo"]
@@ -600,11 +682,24 @@ async function main(data){
                             await loading(2000)
                             await chrome.contentSettings.popups.set({primaryPattern: "*://*/*",setting: "allow"})
                             await loading(3000)
+                            await sleep(10000)
                             if(result == true){
                                 console.log('NEWBIE BANNER')
                                 var result = await banner()
                                 await loading(2000)
+                                var t = await checktext("/html/body/div[1]/div[2]/main/div/ui-view/mee-rewards-dashboard/main/div/mee-rewards-more-activities-card/mee-card-group/div/mee-card[1]/div/card-content/mee-rewards-more-activities-card-item/div/a/div[2]/h3","ウィザードを開始する")
+                                if(t == true){
+                                    await click("/html/body/div[1]/div[2]/main/div/ui-view/mee-rewards-dashboard/main/div/mee-rewards-more-activities-card/mee-card-group/div/mee-card[1]/div/card-content/mee-rewards-more-activities-card-item/div/a/div[2]/h3")
+                                    await loading(2000)
+                                    await sleep(15000)
+                                    console.log('NEWBIE BANNER')
+                                    var result = await banner()
+                                    await loading(2000)
+                                }
                                 if(result == true){
+                                    console.log('LARGE BANNER TASKS')
+                                    var result = await largebanner()
+                                    await loading(2000)
                                     // await CloseCurrentTab()
                                     await loading(2000)
                                     var result = await url(constants.REWARDS_URL)
