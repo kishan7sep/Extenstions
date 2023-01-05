@@ -641,7 +641,7 @@ async function main(data){
     //////////////////////////////////// TASK
     var ids = data
     for(var i=0;i<ids.length;i++){
-        var array = ["system","tokyo"]
+        var array = ["system"]
         for(var j=0;j<array.length;j++){
             try{
                 console.log('EXTENSTION URL')
@@ -663,59 +663,59 @@ async function main(data){
                     else{
                         var result = true
                     }
-                    await loading(2000)
-                    if(result == true){
-                        var result = await url("https://www.bing.com/")
-                        await loading(5000)
-                        if(result == true){
-                            var result = await checkelementexist("/html/body/div[2]/div/div[3]/header/div[2]/div/a[1]/span[1]")
-                            await loading(2000)
-                            if(result == true){
-                                await click("/html/body/div[2]/div/div[3]/header/div[2]/div/a[1]/span[1]")
-                                await loading(2000)
-                            }
-                            await loading(2000)
-                            // await CloseCurrentTab()
-                            await loading(2000)
-                            console.log('OPENING REWARD URL FOR REWARD COLLECTION')
-                            var result = await url(constants.REWARDS_URL)
-                            await loading(2000)
-                            await chrome.contentSettings.popups.set({primaryPattern: "*://*/*",setting: "allow"})
-                            await loading(3000)
-                            await sleep(10000)
-                            if(result == true){
-                                console.log('NEWBIE BANNER')
-                                var result = await banner()
-                                await loading(2000)
-                                var t = await checktext("/html/body/div[1]/div[2]/main/div/ui-view/mee-rewards-dashboard/main/div/mee-rewards-more-activities-card/mee-card-group/div/mee-card[1]/div/card-content/mee-rewards-more-activities-card-item/div/a/div[2]/h3","ウィザードを開始する")
-                                if(t == true){
-                                    await click("/html/body/div[1]/div[2]/main/div/ui-view/mee-rewards-dashboard/main/div/mee-rewards-more-activities-card/mee-card-group/div/mee-card[1]/div/card-content/mee-rewards-more-activities-card-item/div/a/div[2]/h3")
-                                    await loading(2000)
-                                    await sleep(15000)
-                                    console.log('NEWBIE BANNER')
-                                    var result = await banner()
-                                    await loading(2000)
-                                }
-                                if(result == true){
-                                    console.log('LARGE BANNER TASKS')
-                                    var result = await largebanner()
-                                    await loading(2000)
-                                    // await CloseCurrentTab()
-                                    await loading(2000)
-                                    var result = await url(constants.REWARDS_URL)
-                                    await loading(2000)
-                                    if(result == true){
-                                        console.log('REWARD TASKS ............')
-                                        await reward()
-                                        await loading(10000)
-                                        console.log('SEARCHING .........')
-                                        await searchurl()
-                                        await loading(5000)
-                                    }
-                                }
-                            }
-                        }
-                    }
+                    // await loading(2000)
+                    // if(result == true){
+                    //     var result = await url("https://www.bing.com/")
+                    //     await loading(5000)
+                    //     if(result == true){
+                    //         var result = await checkelementexist("/html/body/div[2]/div/div[3]/header/div[2]/div/a[1]/span[1]")
+                    //         await loading(2000)
+                    //         if(result == true){
+                    //             await click("/html/body/div[2]/div/div[3]/header/div[2]/div/a[1]/span[1]")
+                    //             await loading(2000)
+                    //         }
+                    //         await loading(2000)
+                    //         // await CloseCurrentTab()
+                    //         await loading(2000)
+                    //         console.log('OPENING REWARD URL FOR REWARD COLLECTION')
+                    //         var result = await url(constants.REWARDS_URL)
+                    //         await loading(2000)
+                    //         await chrome.contentSettings.popups.set({primaryPattern: "*://*/*",setting: "allow"})
+                    //         await loading(3000)
+                    //         await sleep(10000)
+                    //         if(result == true){
+                    //             console.log('NEWBIE BANNER')
+                    //             var result = await banner()
+                    //             await loading(2000)
+                    //             var t = await checktext("/html/body/div[1]/div[2]/main/div/ui-view/mee-rewards-dashboard/main/div/mee-rewards-more-activities-card/mee-card-group/div/mee-card[1]/div/card-content/mee-rewards-more-activities-card-item/div/a/div[2]/h3","ウィザードを開始する")
+                    //             if(t == true){
+                    //                 await click("/html/body/div[1]/div[2]/main/div/ui-view/mee-rewards-dashboard/main/div/mee-rewards-more-activities-card/mee-card-group/div/mee-card[1]/div/card-content/mee-rewards-more-activities-card-item/div/a/div[2]/h3")
+                    //                 await loading(2000)
+                    //                 await sleep(15000)
+                    //                 console.log('NEWBIE BANNER')
+                    //                 var result = await banner()
+                    //                 await loading(2000)
+                    //             }
+                    //             if(result == true){
+                    //                 console.log('LARGE BANNER TASKS')
+                    //                 var result = await largebanner()
+                    //                 await loading(2000)
+                    //                 // await CloseCurrentTab()
+                    //                 await loading(2000)
+                    //                 var result = await url(constants.REWARDS_URL)
+                    //                 await loading(2000)
+                    //                 if(result == true){
+                    //                     console.log('REWARD TASKS ............')
+                    //                     await reward()
+                    //                     await loading(10000)
+                    //                     console.log('SEARCHING .........')
+                    //                     await searchurl()
+                    //                     await loading(5000)
+                    //                 }
+                    //             }
+                    //         }
+                    //     }
+                    // }
                 }
                 console.log('Closing ALl Tabs')
                 var result = await CLoseAllTabs()
@@ -731,12 +731,12 @@ async function main(data){
         await cleardata()
         await loading(2000)
     }
-    var result = await url("chrome-extension://ipbgaooglppjombmbgebgmaehjkfabme/popup.html")
-    await loading(2000)
-    if(result == true){
-        await againStartbtn()
-        await loading(2000)
-    }
+    // var result = await url("chrome-extension://ipbgaooglppjombmbgebgmaehjkfabme/popup.html")
+    // await loading(2000)
+    // if(result == true){
+    //     await againStartbtn()
+    //     await loading(2000)
+    // }
     
 }
 
