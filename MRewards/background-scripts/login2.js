@@ -641,7 +641,7 @@ async function main(data){
     //////////////////////////////////// TASK
     var ids = data
     for(var i=0;i<ids.length;i++){
-        var array = ids[i].vpn
+        var array = ids[i].vpn.split(',')
         console.log(array)
         for(var j=0;j<array.length;j++){
             try{
