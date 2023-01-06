@@ -201,8 +201,8 @@ document.getElementById('us-proxy').addEventListener('click', async () => {
     rules: {
       fallbackProxy: {
         scheme: "socks5",
-        host: "socks:jl9MGXL22qipWO4bp7+s7w==@3.220.232.57",
-        port: 80
+        host: "3.220.232.57",
+        port: 80,
       },
       bypassList: ["127.0.0.1","[::1]","localhost"]
     }
