@@ -195,6 +195,22 @@ document.getElementById('tokyo-proxy').addEventListener('click', async () => {
   await setproxy(config)
 })
 
+document.getElementById('us-proxy').addEventListener('click', async () => {
+  var config = {
+    mode: "fixed_servers",
+    rules: {
+      fallbackProxy: {
+        scheme: "socks5",
+        host: "socks:jl9MGXL22qipWO4bp7+s7w==@3.220.232.57",
+        port: 80
+      },
+      bypassList: ["127.0.0.1","[::1]","localhost"]
+    }
+  };
+  await getproxy()
+  await setproxy(config)
+})
+
 document.getElementById('open-reward-tasks').addEventListener('click', async () => {
   var data = await funcName("get",null)
   console.log(data)
@@ -504,6 +520,27 @@ async function tokyo(){
           fallbackProxy: {
             scheme: "socks5",
             host: "127.0.0.1",
+            port:ports[i]
+          },
+          bypassList: ["127.0.0.1","[::1]","localhost"]
+        }
+      };
+      await getproxy()
+      await setproxy(config)
+      resolve(true)
+  }})
+}
+
+async function us(){
+  return new Promise(async (resolve, reject) => {
+    var ports = [8888]
+    for(i=0;i<ports.length;i++){
+      var config = {
+        mode: "fixed_servers",
+        rules: {
+          fallbackProxy: {
+            scheme: "socks5",
+            host: "socks:jl9MGXL22qipWO4bp7+s7w==@3.220.232.57",
             port:ports[i]
           },
           bypassList: ["127.0.0.1","[::1]","localhost"]
