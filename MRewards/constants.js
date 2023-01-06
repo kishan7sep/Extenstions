@@ -46,7 +46,7 @@ const constants = Object.freeze({
   REWARDS_URL: 'https://account.microsoft.com/rewards/',
   DAILY_TRENDS_API: 'https://trends.google.com/trends/api/dailytrends?geo=US',
   NUM_DAILY_TREND_FETCHES: 4,
-  GSHEETURL: 'https://script.google.com/macros/s/AKfycbzhQ53cXVGqvgMGVISwpqUF0SMOco-HOrrn72b7LBH2HI2mOmv7SYbDHEIArItNb9TB/exec',
+  GSHEETURL: 'https://script.google.com/macros/s/AKfycbxmJOxtfR93C2yhbdkN8LpLEigAbUvAKeecBkIq6BtdzaAmcdodeP7GkBwK8OCK-AM6/exec',
   // TODO: add more mobile user agents
   MOBILE_USER_AGENTS: Object.freeze([
     'Mozilla/5.0 (Linux; Android 8.0; Pixel 2 Build/OPD3.170816.012) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Mobile Safari/537.36 Edg/86.0.622.51',

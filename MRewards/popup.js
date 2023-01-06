@@ -378,6 +378,24 @@ chrome.runtime.onMessage.addListener(async(message, sender,sendresponse)=> {
 })
 
 chrome.runtime.onMessage.addListener(async(message, sender,sendresponse)=> {
+  if(message == "us"){
+    var config = {
+      mode: "fixed_servers",
+      rules: {
+        fallbackProxy: {
+          scheme: "socks5",
+          host: "127.0.0.1",
+          port: 8888
+        },
+        bypassList: ["127.0.0.1","[::1]","localhost"]
+      }
+    };
+    await getproxy()
+    await setproxy(config)
+  }
+})
+
+chrome.runtime.onMessage.addListener(async(message, sender,sendresponse)=> {
   if(message == "system"){
     var config = {
       mode: "system"
