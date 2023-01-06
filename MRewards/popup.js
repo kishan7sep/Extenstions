@@ -185,8 +185,8 @@ document.getElementById('tokyo-proxy').addEventListener('click', async () => {
     rules: {
       fallbackProxy: {
         scheme: "socks5",
-        host: "127.0.0.1",
-        port: 9999
+        host: "54.199.85.109",
+        port: 80
       },
       bypassList: ["127.0.0.1","[::1]","localhost"]
     }
@@ -382,8 +382,8 @@ chrome.runtime.onMessage.addListener(async(message, sender,sendresponse)=> {
       rules: {
         fallbackProxy: {
           scheme: "socks5",
-          host: "127.0.0.1",
-          port: 9999
+          host: "54.199.85.109",
+          port: 80
         },
         bypassList: ["127.0.0.1","[::1]","localhost"]
       }
@@ -400,8 +400,8 @@ chrome.runtime.onMessage.addListener(async(message, sender,sendresponse)=> {
       rules: {
         fallbackProxy: {
           scheme: "socks5",
-          host: "127.0.0.1",
-          port: 8888
+          host: "3.220.232.57",
+          port: 80
         },
         bypassList: ["127.0.0.1","[::1]","localhost"]
       }
