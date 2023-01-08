@@ -400,7 +400,7 @@ chrome.runtime.onMessage.addListener(async(message, sender,sendresponse)=> {
       rules: {
         fallbackProxy: {
           scheme: "socks5",
-          host: "3.220.232.57",
+          host: "44.192.100.151",
           port: 80
         },
         bypassList: ["127.0.0.1","[::1]","localhost"]
