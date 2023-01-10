@@ -215,7 +215,11 @@ function sleep(millis) {
 ////////////////////////////////////////// CLEAR DATA
 
 async function cleardata(){
-    var config = { "since": 0, "originTypes": {"unprotectedWeb": true, "protectedWeb": true, "extension": true}}
+    var config = { "since": 0, "originTypes": {
+        "unprotectedWeb": true, 
+        "protectedWeb": true, 
+        "extension": true,
+    }}
     await chrome.history.deleteAll(()=> console.log('Deleted'))
     await chrome.browsingData.removeCache(config)
     await chrome.browsingData.removeAppcache(config)

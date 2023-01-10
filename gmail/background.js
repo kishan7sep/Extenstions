@@ -18,7 +18,11 @@ chrome.runtime.onMessage.addListener(async(message, sender,sendresponse)=> {
 })
 
 
-
+chrome.runtime.onMessage.addListener(async(message, sender,sendresponse)=> {
+    if(message.msg == "watchtime"){
+        await watchTime(message.vpn,message.channel)
+    }
+})
 
 
 
@@ -255,7 +259,6 @@ async function youtube(channel){
 }   
 
 
-
 ////////////////////////////////////////////////// CLEAR DATA
 
 
@@ -404,3 +407,25 @@ async function subscribe(mails,yt){
 
 
 
+async function watchTime(vpn,yt){
+    console.log(vpn)
+    console.log(yt)
+    for(var i=0;i<vpn.length;i++){
+        for(var j=0;j<yt.length;j++){
+            for(var k=0;k<yt[j].video_links.length;k++){
+                console.log(yt[j].video_links[k])
+                var result = await url(yt[j].video_links[k])
+                await loading(2000)
+                if(result == true){
+                    await loading(30000)
+                    console.log('CLEANING .........')
+                    await cleardata()
+                    await loading(2000)
+                    console.log('Closing ALl Tabs')
+                    var result = await CLoseAllTabs()
+                    await loading(5000)
+                }
+            }
+        }
+    }
+}

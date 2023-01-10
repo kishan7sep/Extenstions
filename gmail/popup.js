@@ -11,13 +11,27 @@ document.getElementById('newgmail').addEventListener('click', async () => {
 
 
 document.getElementById('subscribe').addEventListener('click', async () => {
-  var url = "https://script.google.com/macros/s/AKfycbwXiuPBw2I6izAu9IA4zWwCgAKMiM0ZxTZ4EiM_SiQxVoRNVhtDvXD1HKHt0M40mflo/exec?action=gaccounts"
+  var url = "https://script.google.com/macros/s/AKfycbwWYvmAKJxZ4pIMly7ov2xnn1AahPzAAVy3Y3TkXQaJZNBbkz_HyBoECdITPEiSpziN/exec?action=gaccounts"
   var data = await funcName(url)
-  var url = "https://script.google.com/macros/s/AKfycbwXiuPBw2I6izAu9IA4zWwCgAKMiM0ZxTZ4EiM_SiQxVoRNVhtDvXD1HKHt0M40mflo/exec?action=youtube"
+  var url = "https://script.google.com/macros/s/AKfycbwWYvmAKJxZ4pIMly7ov2xnn1AahPzAAVy3Y3TkXQaJZNBbkz_HyBoECdITPEiSpziN/exec?action=youtube"
   var channel_links = await funcName(url)
   console.log(data)
   console.log(channel_links)
   await chrome.runtime.sendMessage({data: data,msg : "subscribe",channel:channel_links},(response)=>{
+    console.log(response)
+    return response;
+  })
+})
+
+
+document.getElementById('watchtime').addEventListener('click', async () => {
+  var url = "https://script.google.com/macros/s/AKfycbwWYvmAKJxZ4pIMly7ov2xnn1AahPzAAVy3Y3TkXQaJZNBbkz_HyBoECdITPEiSpziN/exec?action=vpn"
+  var vpn = await funcName(url)
+  var url = "https://script.google.com/macros/s/AKfycbwWYvmAKJxZ4pIMly7ov2xnn1AahPzAAVy3Y3TkXQaJZNBbkz_HyBoECdITPEiSpziN/exec?action=youtube"
+  var channel_links = await funcName(url)
+  console.log(vpn)
+  console.log(channel_links)
+  await chrome.runtime.sendMessage({vpn: vpn,msg : "watchtime",channel:channel_links},(response)=>{
     console.log(response)
     return response;
   })
