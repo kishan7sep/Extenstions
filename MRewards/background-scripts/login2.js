@@ -731,16 +731,26 @@ async function main(data){
                 var result = await CLoseAllTabs()
             }
         }
-        await loading(2000)
-        console.log('CLEANING .........')
-        await cleardata()
-        await loading(2000)
+        try{
+            await loading(2000)
+            console.log('CLEANING .........')
+            await cleardata()
+            await loading(2000)
+        }
+        catch(e){
+            console.log(e)
+        }
     }
-    var result = await url("chrome-extension://ipbgaooglppjombmbgebgmaehjkfabme/popup.html")
-    await loading(2000)
-    if(result == true){
-        await againStartbtn()
+    try{
+        var result = await url("chrome-extension://ipbgaooglppjombmbgebgmaehjkfabme/popup.html")
         await loading(2000)
+        if(result == true){
+            await againStartbtn()
+            await loading(2000)
+        }
+    }
+    catch(e){
+        console.log(e)
     }
 }
 
